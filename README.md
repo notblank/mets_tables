@@ -6,5 +6,5 @@
 
 ### References on estimated marginal means:
 
-1- https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html
-2- https://www.cscu.cornell.edu/news/statnews/93_emmeans.pdf
+1. https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html
+2. https://www.cscu.cornell.edu/news/statnews/93_emmeans.pdf
