@@ -1,3 +1,4 @@
 # Metabolic Syndrome Tables:
 
-- Responses.md contains some supplementary statistical analyses.
+- All data sets are in the data directory.
+- responses/Responses.md contains some supplementary statistical analyses.
