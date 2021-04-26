@@ -17,10 +17,10 @@ library(tidyverse)
 
 
 ```R
-models_df <- read_csv('./data/models_df.csv')
-daily_info <- read_csv('./data/daily_info.csv')
-pure_processed <- read_csv('./data/pureData_processed2.csv')
-pa_info <- read_csv('./data/pa_info.csv')
+models_df <- read_csv('../../pure2/Metabolic Syndrome/data/models_df.csv')
+daily_info <- read_csv('../../pure2/Metabolic Syndrome/data/daily_info.csv')
+pure_processed <- read_csv('../../pure2/Metabolic Syndrome/data/pureData_processed2.csv')
+pa_info <- read_csv('../../pure2/Metabolic Syndrome/data/pa_info.csv')
 ```
 
     
@@ -105,7 +105,7 @@ pa_info <- read_csv('./data/pa_info.csv')
     
 
 
-### Association between carbonated drinks and MetS
+# Association between carbonated drinks and MetS
 
 
 ```R
@@ -297,7 +297,7 @@ wilcox.test(normal_legumes, high_legumes)
 
 
 
-### Comparing models with and without carbonated drinks:
+# Comparing models with and without carbonated drinks:
 
 
 ```R
@@ -775,7 +775,7 @@ summary(mod_ht)
 
 
 
-### Interactions:
+# Interactions:
 
 
 ```R
@@ -930,7 +930,7 @@ glm(met_s ~ sex + age +
 
 
 
-### Lupin Percentage:
+# Lupin Percentage:
 
 
 ```R
@@ -1047,7 +1047,7 @@ cor(pure_processed$whr, pure_processed$whtr)
 0.565376984825329
 
 
-## Models with waist-to-height ratio:
+# Models with waist-to-height ratio:
 
 
 ```R
