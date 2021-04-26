@@ -990,7 +990,7 @@ legumes_data %>%
 
 
 
-### Waist to height ration
+### Waist to height ratio and Waist to hip ratio:
 
 
 ```R
