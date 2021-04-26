@@ -5,14 +5,14 @@ library(car)
 library(rms)
 ```
 
-    -- [1mAttaching packages[22m ---------------------------------------------------------------- tidyverse 1.3.1 --
+    -- [1mAttaching packages[22m --------------------------------------------------------------- tidyverse 1.3.1 --
     
     [32mv[39m [34mggplot2[39m 3.3.3     [32mv[39m [34mpurrr  [39m 0.3.4
     [32mv[39m [34mtibble [39m 3.1.0     [32mv[39m [34mdplyr  [39m 1.0.5
     [32mv[39m [34mtidyr  [39m 1.1.3     [32mv[39m [34mstringr[39m 1.4.0
     [32mv[39m [34mreadr  [39m 1.4.0     [32mv[39m [34mforcats[39m 0.5.1
     
-    -- [1mConflicts[22m ------------------------------------------------------------------- tidyverse_conflicts() --
+    -- [1mConflicts[22m ------------------------------------------------------------------ tidyverse_conflicts() --
     [31mx[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
     [31mx[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
     
@@ -78,17 +78,17 @@ library(rms)
 
 
 ```R
-daily_info <- read_csv('./data/daily_info.csv') %>% 
+daily_info <- read_csv('../../pure2/Metabolic Syndrome/data/daily_info.csv') %>% 
                     mutate(name = case_when(name == 'total_lipid' ~ 'lipids', 
                                             name == 'carbohydrate_bydifference' ~ 'carbohydrates',
                                             name == 'fiber_totaldietary' ~ 'fiber',
                                             TRUE ~ name))
-portions_and_mets <- read_csv('portions_and_mets.csv')
-pure_processed <- read_csv('./data/pureData_processed.csv')
+portions_and_mets <- read_csv('../../pure2/Metabolic Syndrome/data/portions_and_mets.csv')
+pure_processed <- read_csv('../../pure2/Metabolic Syndrome/data/pureData_processed.csv')
 ```
 
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m---------------------------------------------------------------------------------[39m
+    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
     cols(
       id = [32mcol_double()[39m,
       pure_name = [31mcol_character()[39m,
@@ -103,7 +103,7 @@ pure_processed <- read_csv('./data/pureData_processed.csv')
     
     
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m---------------------------------------------------------------------------------[39m
+    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
     cols(
       .default = col_double(),
       beef_cat = [31mcol_character()[39m,
@@ -126,7 +126,7 @@ pure_processed <- read_csv('./data/pureData_processed.csv')
     
     
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m---------------------------------------------------------------------------------[39m
+    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
     cols(
       .default = col_double(),
       sex = [31mcol_character()[39m,
@@ -154,31 +154,6 @@ pure_processed <- read_csv('./data/pureData_processed.csv')
     [36mi[39m<U+00A0>Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
     
     
-
-
-
-```R
-#pure_processed %>% names()
-```
-
-
-```R
-daily_info %>% 
-    filter(is.na(name)) %>% 
-    distinct(pure_name)
-```
-
-
-<table class="dataframe">
-<caption>A tibble: 0 × 1</caption>
-<thead>
-	<tr><th scope=col>pure_name</th></tr>
-	<tr><th scope=col>&lt;chr&gt;</th></tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
 
 
 
@@ -258,12 +233,6 @@ energy_and_macronutrients %>% head()
 
 
 
-
-```R
-energy_and_macronutrients %>%
-    write_csv("~/gitrepos/mets_tables/macronutrientes.csv")
-```
-
 ## Macronutrients and conditions
 
 
@@ -324,6 +293,16 @@ energy_met_s <- energy_and_macronutrients %>%
 ```
 
     `summarise()` has grouped output by 'met_s'. You can override using the `.groups` argument.
+    
+    Note: Using an external vector in selections is ambiguous.
+    [34mi[39m Use `all_of(condition)` instead of `condition` to silence this message.
+    [34mi[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    [90mThis message is displayed once per session.[39m
+    
+    Note: Using an external vector in selections is ambiguous.
+    [34mi[39m Use `all_of(macro)` instead of `macro` to silence this message.
+    [34mi[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    [90mThis message is displayed once per session.[39m
     
 
 
@@ -443,15 +422,6 @@ energy_overob <- energy_and_macronutrients %>%
 
 
 ```R
-bind_rows(mets_macro, dm2_macro, overob_macro) %>% 
-    write_csv('macro_conds.csv')
-
-bind_rows(energy_met_s, energy_dm2, energy_overob) %>% 
-    write_csv('energy_conds.csv')
-```
-
-
-```R
 bind_rows(mets_macro, dm2_macro, overob_macro) 
 ```
 
@@ -493,277 +463,6 @@ bind_rows(energy_met_s, energy_dm2, energy_overob)
 	<tr><td>energy</td><td>39442498</td><td>40132218</td><td>met_s             </td><td>0.675</td></tr>
 	<tr><td>energy</td><td>39762398</td><td>39632204</td><td>d_diagnosed       </td><td>0.965</td></tr>
 	<tr><td>energy</td><td>39372043</td><td>39852467</td><td>overweight_obesity</td><td>0.800</td></tr>
-</tbody>
-</table>
-
-
-
-## Normal BMI?
-
-
-```R
-mets_conditions %>% 
-    ggplot(aes(bmi)) + 
-        geom_histogram()
-```
-
-    `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-    
-    Warning message:
-    “Removed 1 rows containing non-finite values (stat_bin).”
-
-
-
-    
-![png](output_21_1.png)
-    
-
-
-
-```R
-mets_conditions %>% 
-    filter(percent_rank(whr) <= 0.985, percent_rank(whr) >= 0.025) %>%
-    mutate(whr = 0.1 * (whr %/% 0.1)) %>% 
-    count(whr) 
-```
-
-
-<table>
-<caption>A tibble: 4 × 2</caption>
-<thead>
-	<tr><th scope=col>whr</th><th scope=col>n</th></tr>
-	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
-</thead>
-<tbody>
-	<tr><td>0.7</td><td> 97</td></tr>
-	<tr><td>0.8</td><td>916</td></tr>
-	<tr><td>0.9</td><td>796</td></tr>
-	<tr><td>1.0</td><td>108</td></tr>
-</tbody>
-</table>
-
-
-
-# Percent in function of conditions:
-
-
-```R
-macronutrients_percent <- function(var_names, var_df){
-    mn_df <- daily_info %>% 
-                select(id, name, type, amount_per_day) %>% 
-                inner_join(var_df, by = 'id') %>% 
-                group_by(name, get(var_names)) %>% 
-                summarise(amount_per_day = mean(amount_per_day)) %>% 
-                pivot_wider(names_from = name, values_from = amount_per_day) %>% 
-                mutate(total_energy = 4*carbohydrates + 4*protein + 6.9*lipids, 
-                       percent_protein = 4*protein / total_energy, 
-                       percent_lipids = 6.9*lipids / total_energy, 
-                       percent_carbohydrates = 4*carbohydrates / total_energy) %>% 
-                select(var = `get(var_names)`, contains('percent')) %>% 
-                filter(percent_rank(var) <= 0.90, percent_rank(var) >= 0.02) %>% 
-                pivot_longer(cols = -var, names_to = 'source', values_to = 'percent') 
-    
-    return(mn_df)
-}
-```
-
-
-```R
-var_tibble <- function(var_names, smooth_param, mets_tibble){
-    
-    var_df <- mets_tibble %>% 
-            select(id, var = var_names) %>% 
-            mutate(var = smooth_param * (var %/% smooth_param)) %>% 
-            filter(percent_rank(var) <= 0.975, percent_rank(var) >= 0.25)
-    
-    return(var_df)
-
-}
-```
-
-
-```R
-mets_conditions_man <- mets_conditions %>% filter(sex == 'Man')
-whr_df_man <- var_tibble('whr', 0.02, mets_conditions_man) %>% rename(whr = 'var')
-whr_man <- macronutrients_percent('whr', whr_df_man) %>% 
-                rename(whr = 'var') %>% 
-                ggplot(aes(whr, percent, fill = source)) + geom_area()
-```
-
-
-```R
-mets_conditions_woman <- mets_conditions %>% filter(sex == 'Woman')
-whr_df_woman <- var_tibble('whr', 0.02, mets_conditions_woman) %>% rename(whr = 'var')
-whr_woman <- macronutrients_percent('whr', whr_df_woman) %>% 
-                    rename(whr = 'var') %>% 
-                    ggplot(aes(whr, percent, fill = source)) + geom_area()
-```
-
-## Nutrient sources in function of the condition:
-
-
-```R
-food_percent <- function(var, var_df){
-    
-    food_percent_df <- 
-        daily_info %>% 
-            filter(name != 'energy') %>% 
-            select(id, name, type, amount_per_day) %>% 
-            group_by(id, type, name) %>%    
-            summarise(amount_per_day = sum(amount_per_day)) %>% 
-            inner_join(var_df, by = 'id') %>% 
-            group_by(name, type, get(var)) %>% 
-            summarise(amount_per_day = mean(amount_per_day)) %>% 
-            group_by(name, `get(var)`) %>% 
-            mutate(percent = amount_per_day/sum(amount_per_day)) %>% 
-            ungroup()
-    
-    return(food_percent_df)
-}
-```
-
-
-```R
-spinogram_souce <- function(macro_nutrient, food_percent_df){
-    
-    food_percent_df %>% 
-    filter(name == macro_nutrient) %>%
-    ggplot(aes(whr, percent, fill = type)) +
-                geom_area(color = 'grey50') +
-                scale_y_continuous(labels = scales::percent_format())
-    }
-```
-
-
-```R
-var_df <- mets_conditions %>% 
-            select(id, sex, whr) %>% 
-            mutate(whr = 0.05 * (whr %/% 0.05)) %>% 
-            filter(percent_rank(whr) <= 0.99, percent_rank(whr) >= 0.01)
-
-food_percent_df <- food_percent('whr', var_df) %>% rename(whr = `get(var)`)
-#food_percent_df %>% head()
-
-spinogram_souce('protein', food_percent_df) +
-    labs(title = 'Protein sources in function of whr')
-```
-
-
-    
-![png](output_31_0.png)
-    
-
-
-# whr by sex
-
-
-```R
-smooth_param  <- 2
-bmi_df <- mets_conditions %>% 
-            select(id, bmi , sex) %>% 
-            mutate(bmi = smooth_param * (bmi %/% smooth_param)) %>% 
-            filter(percent_rank(bmi) <= 0.975, percent_rank(bmi) >= 0.25)
-
-daily_info %>% 
-        select(id, name, type, amount_per_day) %>% 
-        inner_join(bmi_df, by = 'id') %>% 
-        group_by(name, bmi, sex) %>% 
-        summarise(amount_per_day = mean(amount_per_day)) %>% 
-        pivot_wider(names_from = name, values_from = amount_per_day) %>% 
-        mutate(total_energy = 4*carbohydrates + 4*protein + 6.9*lipids, 
-               percent_protein = 4*protein / total_energy, 
-               percent_lipids = 6.9*lipids / total_energy, 
-               percent_carbohydrates = 4*carbohydrates / total_energy) %>% 
-        select(bmi, sex, contains('percent')) %>% 
-        pivot_longer(cols = -c(sex, bmi), names_to = 'source', values_to = 'percent') %>% 
-        ungroup() %>% 
-        filter(percent_rank(bmi) <= 0.975, percent_rank(bmi) >= 0.025) %>%
-        ggplot(aes(bmi, percent, fill = source)) + 
-            geom_col() +
-            facet_wrap(~sex)
-```
-
-
-    
-![png](output_33_0.png)
-    
-
-
-
-```R
-food_percent_whr_sex <- daily_info %>% 
-            filter(name != 'energy') %>% 
-            select(id, name, type, amount_per_day) %>% 
-            group_by(id, type, name) %>%    
-            summarise(amount_per_day = sum(amount_per_day)) %>% 
-            inner_join(var_df, by = 'id') %>% 
-            group_by(name, type, sex, whr) %>% 
-            summarise(amount_per_day = mean(amount_per_day)) %>% 
-            group_by(name, sex, whr) %>% 
-            mutate(percent = amount_per_day/sum(amount_per_day)) %>% 
-            ungroup() %>%
-            filter(percent_rank(whr) <= 0.975, percent_rank(whr) >= 0.025) 
-
-food_percent_whr_sex %>%
-            filter(name == 'protein')  %>% 
-            ggplot(aes(whr, percent, fill = type)) +
-                    geom_area(color = 'grey50') +
-                    scale_y_continuous(labels = scales::percent_format()) +
-                    facet_wrap(~sex)
-```
-
-
-    
-![png](output_34_0.png)
-    
-
-
-
-```R
-food_percent_whr_sex %>% 
-        filter(type %in% c('fruits', 'legumes',
-                           'bread_cereal_starches', 'rice_tubers')) %>% 
-            filter(name == 'protein')  %>% 
-            ggplot(aes(whr, percent, fill = sex)) +
-                    geom_area(color = 'grey50', position = 'dodge', alpha = 0.5) +
-                    scale_y_continuous(labels = scales::percent_format()) +
-                    facet_wrap(~type)
-```
-
-    Warning message:
-    “Width not defined. Set with `position_dodge(width = ?)`”
-
-
-
-    
-![png](output_35_1.png)
-    
-
-
-
-```R
-mets_conditions %>% 
-    filter(percent_rank(whr) <= 0.975, percent_rank(whr) >= 0.025) %>%
-    mutate(whr = 0.04 * (whr %/% 0.04)) %>% 
-    count(whr)
-```
-
-
-<table>
-<caption>A tibble: 8 × 2</caption>
-<thead>
-	<tr><th scope=col>whr</th><th scope=col>n</th></tr>
-	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
-</thead>
-<tbody>
-	<tr><td>0.76</td><td> 97</td></tr>
-	<tr><td>0.80</td><td>278</td></tr>
-	<tr><td>0.84</td><td>407</td></tr>
-	<tr><td>0.88</td><td>438</td></tr>
-	<tr><td>0.92</td><td>350</td></tr>
-	<tr><td>0.96</td><td>239</td></tr>
-	<tr><td>1.00</td><td> 84</td></tr>
-	<tr><td>1.04</td><td>  4</td></tr>
 </tbody>
 </table>
 
