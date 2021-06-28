@@ -5,29 +5,29 @@ library(car)
 library(rms)
 ```
 
-    -- [1mAttaching packages[22m --------------------------------------------------------------- tidyverse 1.3.1 --
+    ── [1mAttaching packages[22m ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
     
-    [32mv[39m [34mggplot2[39m 3.3.3     [32mv[39m [34mpurrr  [39m 0.3.4
-    [32mv[39m [34mtibble [39m 3.1.0     [32mv[39m [34mdplyr  [39m 1.0.5
-    [32mv[39m [34mtidyr  [39m 1.1.3     [32mv[39m [34mstringr[39m 1.4.0
-    [32mv[39m [34mreadr  [39m 1.4.0     [32mv[39m [34mforcats[39m 0.5.1
+    [32m✔[39m [34mggplot2[39m 3.3.3     [32m✔[39m [34mpurrr  [39m 0.3.4
+    [32m✔[39m [34mtibble [39m 3.1.0     [32m✔[39m [34mdplyr  [39m 1.0.5
+    [32m✔[39m [34mtidyr  [39m 1.1.3     [32m✔[39m [34mstringr[39m 1.4.0
+    [32m✔[39m [34mreadr  [39m 1.4.0     [32m✔[39m [34mforcats[39m 0.5.1
     
-    -- [1mConflicts[22m ------------------------------------------------------------------ tidyverse_conflicts() --
-    [31mx[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
-    [31mx[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+    ── [1mConflicts[22m ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+    [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
     
     Loading required package: carData
     
     
-    Attaching package: 'car'
+    Attaching package: ‘car’
     
     
-    The following object is masked from 'package:dplyr':
+    The following object is masked from ‘package:dplyr’:
     
         recode
     
     
-    The following object is masked from 'package:purrr':
+    The following object is masked from ‘package:purrr’:
     
         some
     
@@ -41,15 +41,15 @@ library(rms)
     Loading required package: Formula
     
     
-    Attaching package: 'Hmisc'
+    Attaching package: ‘Hmisc’
     
     
-    The following objects are masked from 'package:dplyr':
+    The following objects are masked from ‘package:dplyr’:
     
         src, summarize
     
     
-    The following objects are masked from 'package:base':
+    The following objects are masked from ‘package:base’:
     
         format.pval, units
     
@@ -57,19 +57,19 @@ library(rms)
     Loading required package: SparseM
     
     
-    Attaching package: 'SparseM'
+    Attaching package: ‘SparseM’
     
     
-    The following object is masked from 'package:base':
+    The following object is masked from ‘package:base’:
     
         backsolve
     
     
     
-    Attaching package: 'rms'
+    Attaching package: ‘rms’
     
     
-    The following objects are masked from 'package:car':
+    The following objects are masked from ‘package:car’:
     
         Predict, vif
     
@@ -78,166 +78,67 @@ library(rms)
 
 
 ```R
-daily_info <- read_csv('../../pure2/Metabolic Syndrome/data/daily_info.csv') %>% 
-                    mutate(name = case_when(name == 'total_lipid' ~ 'lipids', 
-                                            name == 'carbohydrate_bydifference' ~ 'carbohydrates',
-                                            name == 'fiber_totaldietary' ~ 'fiber',
-                                            TRUE ~ name))
-portions_and_mets <- read_csv('../../pure2/Metabolic Syndrome/data/portions_and_mets.csv')
-pure_processed <- read_csv('../../pure2/Metabolic Syndrome/data/pureData_processed.csv')
+macro_nut_portions_info.csv <- read_csv('../data/macro_nut_portions_info.csv')
+conditions_info <- read_csv('../data/conditions_info.csv') 
 ```
 
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
     cols(
       id = [32mcol_double()[39m,
-      pure_name = [31mcol_character()[39m,
-      pure_portion = [32mcol_double()[39m,
-      weight_portion_gr = [32mcol_double()[39m,
-      type = [31mcol_character()[39m,
-      name = [31mcol_character()[39m,
-      amount_per_portion = [32mcol_double()[39m,
-      amount_per_day = [32mcol_double()[39m,
-      gr_per_day = [32mcol_double()[39m
-    )
-    
-    
-    
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
-    cols(
-      .default = col_double(),
+      carbohydrates = [32mcol_double()[39m,
+      energy = [32mcol_double()[39m,
+      fiber = [32mcol_double()[39m,
+      lipids = [32mcol_double()[39m,
+      protein = [32mcol_double()[39m,
+      energy_macro = [32mcol_double()[39m,
+      percent_carbohydrate = [32mcol_double()[39m,
+      percent_protein = [32mcol_double()[39m,
+      percent_lipids = [32mcol_double()[39m,
       beef_cat = [31mcol_character()[39m,
       dairy_cat = [31mcol_character()[39m,
       legumes_cat = [31mcol_character()[39m,
       white_meat_cat = [31mcol_character()[39m,
+      beef = [32mcol_double()[39m,
+      dairy = [32mcol_double()[39m,
+      legumes = [32mcol_double()[39m,
+      white_meat = [32mcol_double()[39m
+    )
+    
+    
+    
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
+    cols(
+      .default = col_double(),
+      education = [31mcol_character()[39m,
       sex = [31mcol_character()[39m,
       location_type = [31mcol_character()[39m,
-      education = [31mcol_character()[39m,
       smokes = [31mcol_character()[39m,
       drinks = [31mcol_character()[39m,
       elevated_bp = [33mcol_logical()[39m,
-      elevated_wcm = [33mcol_logical()[39m,
       elevated_triglycerids_mg_d_l = [33mcol_logical()[39m,
       elevated_glucose_mg_d_l = [33mcol_logical()[39m,
       low_hdl_mg_d_l = [33mcol_logical()[39m,
-      met_s = [33mcol_logical()[39m
+      met_s = [33mcol_logical()[39m,
+      d_diagnosed = [33mcol_logical()[39m,
+      h_diagnosed = [33mcol_logical()[39m
     )
-    [36mi[39m<U+00A0>Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
-    
-    
-    
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
-    cols(
-      .default = col_double(),
-      sex = [31mcol_character()[39m,
-      education = [31mcol_character()[39m,
-      prediag = [31mcol_character()[39m,
-      years_after_diag = [31mcol_character()[39m,
-      medicated = [31mcol_character()[39m,
-      medication = [31mcol_character()[39m,
-      imc_diagnostico = [31mcol_character()[39m,
-      smokes = [31mcol_character()[39m,
-      community = [31mcol_character()[39m,
-      drinks = [31mcol_character()[39m,
-      h_aware = [33mcol_logical()[39m,
-      d_aware = [33mcol_logical()[39m,
-      c_aware = [33mcol_logical()[39m,
-      high_blood_pressure = [33mcol_logical()[39m,
-      high_blood_sugar_mg_d_l = [33mcol_logical()[39m,
-      high_triglycerids_mg_d_l = [33mcol_logical()[39m,
-      high_ldl_mg_d_l = [33mcol_logical()[39m,
-      high_total_cholesterol_mg_d_l = [33mcol_logical()[39m,
-      low_hdl_mg_d_l = [33mcol_logical()[39m,
-      abdominal_obesity_cm = [33mcol_logical()[39m
-      # ... with 25 more columns
-    )
-    [36mi[39m<U+00A0>Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
+    [36mℹ[39m Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
     
     
 
 
 
 ```R
-mets_conditions <- pure_processed %>% 
-                        select(id, sex, income,
-                               systolic = 'systolic_mean', 
-                               diastolic = 'diastolic_mean', 
-                               hdl, ldl, triglycerides, glucose, 
-                               waist = waist_mean, bmi, whr,
-                               d_diagnosed, h_diagnosed)
+macro_info <- conditions_info %>% 
+    inner_join(macro_nut_portions_info.csv, by = 'id')
 ```
-
-
-```R
-mets_conditions %>% names()
-```
-
-
-<style>
-.list-inline {list-style: none; margin:0; padding: 0}
-.list-inline>li {display: inline-block}
-.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
-</style>
-<ol class=list-inline><li>'id'</li><li>'sex'</li><li>'income'</li><li>'systolic'</li><li>'diastolic'</li><li>'hdl'</li><li>'ldl'</li><li>'triglycerides'</li><li>'glucose'</li><li>'waist'</li><li>'bmi'</li><li>'whr'</li><li>'d_diagnosed'</li><li>'h_diagnosed'</li></ol>
-
-
-
-
-```R
-energy_and_macronutrients  <- 
-        daily_info %>% 
-            filter(!is.na(name)) %>% 
-            group_by(id, name) %>% 
-            summarise(amount_per_day = sum(amount_per_day)) %>% 
-            pivot_wider(names_from = name, values_from = amount_per_day) %>% 
-            mutate(energy_macro = 3.75*carbohydrates + 4*protein + 9*lipids, 
-                   percent_carbohydrate = 3.75*carbohydrates/energy_macro, 
-                   percent_protein = 4*protein/energy_macro, 
-                   percent_lipids = 9*lipids/energy_macro) %>%
-            ungroup() %>% 
-            inner_join(portions_and_mets %>% select(-c(waist, bmi, whr)), by = 'id') %>% 
-            inner_join(mets_conditions, by = 'id') %>% 
-            mutate_at(vars(matches("_cat")), fct_relevel, '≤ 0.5')
-
-energy_and_macronutrients %>% head()
-```
-
-    `summarise()` has grouped output by 'id'. You can override using the `.groups` argument.
-    
-    Warning message:
-    "Unknown levels in `f`: <U+2264> 0.5"
-    Warning message:
-    "Unknown levels in `f`: <U+2264> 0.5"
-    Warning message:
-    "Unknown levels in `f`: <U+2264> 0.5"
-    Warning message:
-    "Unknown levels in `f`: <U+2264> 0.5"
-
-
-
-<table class="dataframe">
-<caption>A tibble: 6 × 51</caption>
-<thead>
-	<tr><th scope=col>id</th><th scope=col>carbohydrates</th><th scope=col>energy</th><th scope=col>fiber</th><th scope=col>lipids</th><th scope=col>protein</th><th scope=col>energy_macro</th><th scope=col>percent_carbohydrate</th><th scope=col>percent_protein</th><th scope=col>percent_lipids</th><th scope=col>⋯</th><th scope=col>diastolic</th><th scope=col>hdl</th><th scope=col>ldl</th><th scope=col>triglycerides</th><th scope=col>glucose</th><th scope=col>waist</th><th scope=col>bmi</th><th scope=col>whr</th><th scope=col>d_diagnosed</th><th scope=col>h_diagnosed</th></tr>
-	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>⋯</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
-</thead>
-<tbody>
-	<tr><td>2500100101</td><td>770.9608</td><td>5580.666</td><td>123.22187</td><td>171.38187</td><td>275.8529</td><td>5536.952</td><td>0.5221471</td><td>0.1992815</td><td>0.2785715</td><td>⋯</td><td>71</td><td>54.9</td><td>133.2</td><td>280.1</td><td> 94.6</td><td> 79.3</td><td>27.2</td><td>0.8850446</td><td>FALSE</td><td>FALSE</td></tr>
-	<tr><td>2500100201</td><td>469.9130</td><td>3395.204</td><td> 67.20909</td><td> 89.79881</td><td>197.8507</td><td>3361.766</td><td>0.5241810</td><td>0.2354129</td><td>0.2404062</td><td>⋯</td><td>89</td><td>83.9</td><td>165.3</td><td>134.4</td><td> 92.0</td><td> 92.6</td><td>28.2</td><td>0.8793922</td><td>FALSE</td><td>FALSE</td></tr>
-	<tr><td>2500100301</td><td>506.2671</td><td>3145.253</td><td> 42.27424</td><td> 80.76115</td><td>105.7285</td><td>3048.266</td><td>0.6228137</td><td>0.1387392</td><td>0.2384472</td><td>⋯</td><td>75</td><td>40.4</td><td> 93.7</td><td>184.1</td><td> 97.5</td><td> 99.5</td><td>28.9</td><td>1.0000000</td><td>FALSE</td><td> TRUE</td></tr>
-	<tr><td>2500100302</td><td>505.9751</td><td>4522.306</td><td> 63.24273</td><td>153.58089</td><td>287.3866</td><td>4429.181</td><td>0.4283877</td><td>0.2595393</td><td>0.3120730</td><td>⋯</td><td>74</td><td>48.3</td><td>133.5</td><td>104.3</td><td> 79.0</td><td>104.0</td><td>26.9</td><td>1.1075612</td><td>FALSE</td><td>FALSE</td></tr>
-	<tr><td>2500100401</td><td>446.0787</td><td>3402.737</td><td> 48.43991</td><td> 93.26682</td><td>203.9722</td><td>3328.085</td><td>0.5026299</td><td>0.2451526</td><td>0.2522175</td><td>⋯</td><td>93</td><td>37.2</td><td>204.2</td><td>153.9</td><td>125.5</td><td>105.3</td><td>31.9</td><td>1.0425743</td><td>FALSE</td><td> TRUE</td></tr>
-	<tr><td>2500100402</td><td>324.1356</td><td>2465.029</td><td> 36.35588</td><td> 67.69798</td><td>147.7826</td><td>2415.921</td><td>0.5031244</td><td>0.2446812</td><td>0.2521945</td><td>⋯</td><td>90</td><td>69.1</td><td>137.9</td><td>193.1</td><td>157.9</td><td> 84.2</td><td>25.0</td><td>0.8394816</td><td> TRUE</td><td> TRUE</td></tr>
-</tbody>
-</table>
-
-
 
 ## Macronutrients and conditions
 
 
 ```R
-energy_and_macronutrients %>% 
+macro_info %>% 
     select(contains("percent_")) %>% 
     pivot_longer(cols = contains("percent_"), names_to = "source", values_to = "percent") %>% 
     group_by(source) %>% 
@@ -264,7 +165,7 @@ energy_and_macronutrients %>%
 ```R
 t_test_macro <- function(condition, macro){
     
-    t_df <- energy_and_macronutrients %>% 
+    t_df <- macro_info %>% 
                 mutate(overweight_obesity = ifelse(bmi >= 25, TRUE, FALSE)) %>% 
                 na.omit() %>% 
                 select(condition, macro) 
@@ -278,7 +179,7 @@ t_test_macro <- function(condition, macro){
 
 
 ```R
-energy_met_s <- energy_and_macronutrients %>% 
+energy_met_s <- macro_info %>% 
     na.omit() %>% 
     select(met_s, energy) %>% 
     pivot_longer(cols = -met_s, names_to = 'source', values_to = 'percent') %>% 
@@ -295,20 +196,20 @@ energy_met_s <- energy_and_macronutrients %>%
     `summarise()` has grouped output by 'met_s'. You can override using the `.groups` argument.
     
     Note: Using an external vector in selections is ambiguous.
-    [34mi[39m Use `all_of(condition)` instead of `condition` to silence this message.
-    [34mi[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    [34mℹ[39m Use `all_of(condition)` instead of `condition` to silence this message.
+    [34mℹ[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
     [90mThis message is displayed once per session.[39m
     
     Note: Using an external vector in selections is ambiguous.
-    [34mi[39m Use `all_of(macro)` instead of `macro` to silence this message.
-    [34mi[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    [34mℹ[39m Use `all_of(macro)` instead of `macro` to silence this message.
+    [34mℹ[39m See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
     [90mThis message is displayed once per session.[39m
     
 
 
 
 ```R
-mets_macro <- energy_and_macronutrients %>% 
+mets_macro <- macro_info %>% 
     na.omit() %>% 
     select(met_s, contains('percent')) %>% 
     pivot_longer(cols = -met_s, names_to = 'source', values_to = 'percent') %>% 
@@ -332,7 +233,7 @@ mets_macro <- energy_and_macronutrients %>%
 
 
 ```R
-dm2_macro <- energy_and_macronutrients %>% 
+dm2_macro <- macro_info %>% 
     na.omit() %>% 
     select(d_diagnosed, contains('percent')) %>% 
     pivot_longer(cols = -d_diagnosed, names_to = 'source', values_to = 'percent') %>% 
@@ -356,7 +257,7 @@ dm2_macro <- energy_and_macronutrients %>%
 
 
 ```R
-energy_dm2 <- energy_and_macronutrients %>% 
+energy_dm2 <- macro_info %>% 
     na.omit() %>% 
     select(d_diagnosed, energy) %>% 
     pivot_longer(cols = -d_diagnosed, names_to = 'source', values_to = 'percent') %>% 
@@ -376,7 +277,7 @@ energy_dm2 <- energy_and_macronutrients %>%
 
 
 ```R
-overob_macro <- energy_and_macronutrients %>% 
+overob_macro <- macro_info %>% 
     mutate(overweight_obesity = ifelse(bmi >= 25, TRUE, FALSE)) %>% 
     na.omit() %>% 
     select(overweight_obesity, contains('percent')) %>% 
@@ -401,7 +302,7 @@ overob_macro <- energy_and_macronutrients %>%
 
 
 ```R
-energy_overob <- energy_and_macronutrients %>% 
+energy_overob <- macro_info %>% 
     mutate(overweight_obesity = ifelse(bmi >= 25, TRUE, FALSE)) %>% 
     na.omit() %>% 
     select(overweight_obesity, energy) %>% 

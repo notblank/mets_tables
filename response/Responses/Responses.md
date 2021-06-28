@@ -2,97 +2,83 @@
 library(tidyverse)
 ```
 
-    -- [1mAttaching packages[22m --------------------------------------------------------------- tidyverse 1.3.1 --
+    ── [1mAttaching packages[22m ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
     
-    [32mv[39m [34mggplot2[39m 3.3.3     [32mv[39m [34mpurrr  [39m 0.3.4
-    [32mv[39m [34mtibble [39m 3.1.0     [32mv[39m [34mdplyr  [39m 1.0.5
-    [32mv[39m [34mtidyr  [39m 1.1.3     [32mv[39m [34mstringr[39m 1.4.0
-    [32mv[39m [34mreadr  [39m 1.4.0     [32mv[39m [34mforcats[39m 0.5.1
+    [32m✔[39m [34mggplot2[39m 3.3.3     [32m✔[39m [34mpurrr  [39m 0.3.4
+    [32m✔[39m [34mtibble [39m 3.1.0     [32m✔[39m [34mdplyr  [39m 1.0.5
+    [32m✔[39m [34mtidyr  [39m 1.1.3     [32m✔[39m [34mstringr[39m 1.4.0
+    [32m✔[39m [34mreadr  [39m 1.4.0     [32m✔[39m [34mforcats[39m 0.5.1
     
-    -- [1mConflicts[22m ------------------------------------------------------------------ tidyverse_conflicts() --
-    [31mx[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
-    [31mx[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+    ── [1mConflicts[22m ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+    [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
     
 
 
 
 ```R
-models_df <- read_csv('../../pure2/Metabolic Syndrome/data/models_df.csv')
-daily_info <- read_csv('../../pure2/Metabolic Syndrome/data/daily_info.csv')
-pure_processed <- read_csv('../../pure2/Metabolic Syndrome/data/pureData_processed2.csv')
-pa_info <- read_csv('../../pure2/Metabolic Syndrome/data/pa_info.csv')
+diet_info <- read_csv('../data/diet_info.csv')
+conditions_info <- read_csv('../data/conditions_info.csv') 
+macro_port_info <- read_csv('../data/macro_nut_portions_info.csv')
+pa_info <- read_csv('../data/pa_info.csv')
+legumes_types_info <- read_csv('../data/legume_types_info.csv')
 ```
 
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
+    cols(
+      id = [32mcol_double()[39m,
+      type = [31mcol_character()[39m,
+      portions_by_type = [32mcol_double()[39m
+    )
+    
+    
+    
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
     cols(
       .default = col_double(),
+      education = [31mcol_character()[39m,
       sex = [31mcol_character()[39m,
       location_type = [31mcol_character()[39m,
-      education = [31mcol_character()[39m,
       smokes = [31mcol_character()[39m,
       drinks = [31mcol_character()[39m,
       elevated_bp = [33mcol_logical()[39m,
-      elevated_wcm = [33mcol_logical()[39m,
       elevated_triglycerids_mg_d_l = [33mcol_logical()[39m,
       elevated_glucose_mg_d_l = [33mcol_logical()[39m,
       low_hdl_mg_d_l = [33mcol_logical()[39m,
       met_s = [33mcol_logical()[39m,
-      gr_per_day_dairy = [33mcol_logical()[39m,
-      gr_per_day_eggs = [33mcol_logical()[39m,
-      gr_per_day_fruits_vegtables = [33mcol_logical()[39m,
-      gr_per_day_legumes = [33mcol_logical()[39m,
-      gr_per_day_white_meat = [33mcol_logical()[39m
+      d_diagnosed = [33mcol_logical()[39m,
+      h_diagnosed = [33mcol_logical()[39m
     )
-    [36mi[39m<U+00A0>Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
+    [36mℹ[39m Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
     
     
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
     cols(
       id = [32mcol_double()[39m,
-      pure_name = [31mcol_character()[39m,
-      pure_portion = [32mcol_double()[39m,
-      weight_portion_gr = [32mcol_double()[39m,
-      type = [31mcol_character()[39m,
-      name = [31mcol_character()[39m,
-      amount_per_portion = [32mcol_double()[39m,
-      amount_per_day = [32mcol_double()[39m,
-      gr_per_day = [32mcol_double()[39m
+      carbohydrates = [32mcol_double()[39m,
+      energy = [32mcol_double()[39m,
+      fiber = [32mcol_double()[39m,
+      lipids = [32mcol_double()[39m,
+      protein = [32mcol_double()[39m,
+      energy_macro = [32mcol_double()[39m,
+      percent_carbohydrate = [32mcol_double()[39m,
+      percent_protein = [32mcol_double()[39m,
+      percent_lipids = [32mcol_double()[39m,
+      beef_cat = [31mcol_character()[39m,
+      dairy_cat = [31mcol_character()[39m,
+      legumes_cat = [31mcol_character()[39m,
+      white_meat_cat = [31mcol_character()[39m,
+      beef = [32mcol_double()[39m,
+      dairy = [32mcol_double()[39m,
+      legumes = [32mcol_double()[39m,
+      white_meat = [32mcol_double()[39m
     )
     
     
     
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
-    cols(
-      .default = col_double(),
-      sex = [31mcol_character()[39m,
-      education = [31mcol_character()[39m,
-      prediag = [31mcol_character()[39m,
-      years_after_diag = [31mcol_character()[39m,
-      medicated = [31mcol_character()[39m,
-      medication = [31mcol_character()[39m,
-      imc_diagnostico = [31mcol_character()[39m,
-      smokes = [31mcol_character()[39m,
-      community = [31mcol_character()[39m,
-      drinks = [31mcol_character()[39m,
-      h_aware = [33mcol_logical()[39m,
-      d_aware = [33mcol_logical()[39m,
-      c_aware = [33mcol_logical()[39m,
-      high_blood_pressure = [33mcol_logical()[39m,
-      high_blood_sugar_mg_d_l = [33mcol_logical()[39m,
-      high_triglycerids_mg_d_l = [33mcol_logical()[39m,
-      high_ldl_mg_d_l = [33mcol_logical()[39m,
-      high_total_cholesterol_mg_d_l = [33mcol_logical()[39m,
-      low_hdl_mg_d_l = [33mcol_logical()[39m,
-      abdominal_obesity_cm = [33mcol_logical()[39m
-      # ... with 26 more columns
-    )
-    [36mi[39m<U+00A0>Use [30m[47m[30m[47m`spec()`[47m[30m[49m[39m for the full column specifications.
-    
-    
-    
-    [36m--[39m [1m[1mColumn specification[1m[22m [36m--------------------------------------------------------------------------------[39m
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
     cols(
       id = [32mcol_double()[39m,
       l_pa = [32mcol_double()[39m,
@@ -103,72 +89,23 @@ pa_info <- read_csv('../../pure2/Metabolic Syndrome/data/pa_info.csv')
     )
     
     
+    
+    [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────────────────────────────────────────────[39m
+    cols(
+      id = [32mcol_double()[39m,
+      pure_name = [31mcol_character()[39m,
+      pure_portion = [32mcol_double()[39m,
+      total = [32mcol_double()[39m
+    )
+    
+    
 
 
 # Association between carbonated drinks and MetS
 
 
 ```R
-daily_info %>%
-    filter(type == "beverages") %>%
-    distinct(pure_name)
-```
-
-
-<table class="dataframe">
-<caption>A tibble: 10 × 1</caption>
-<thead>
-	<tr><th scope=col>pure_name</th></tr>
-	<tr><th scope=col>&lt;chr&gt;</th></tr>
-</thead>
-<tbody>
-	<tr><td>natural_juice   </td></tr>
-	<tr><td>commercial_juice</td></tr>
-	<tr><td>soft_drink      </td></tr>
-	<tr><td>soft_light_drink</td></tr>
-	<tr><td>tea             </td></tr>
-	<tr><td>oat_drink       </td></tr>
-	<tr><td>iced_tea        </td></tr>
-	<tr><td>beer            </td></tr>
-	<tr><td>wine            </td></tr>
-	<tr><td>spirits         </td></tr>
-</tbody>
-</table>
-
-
-
-
-```R
-diets_carb_drinks <- 
-    daily_info %>%
-        filter(name == "energy") %>%
-        mutate(type = 
-               case_when(pure_name %in% c("soft_drink", "soft_light_drink") ~ "carbonated_drink", 
-                        TRUE ~ type)) %>%
-        filter(type %in% c('legumes', 'legume_soup', 
-                           'fish', 'chicken', 'pork', 
-                           'beef', 'dairy', 
-                           'carbonated_drink'), 
-               !str_detect(pure_name, 'skimmed')) %>% 
-        group_by(id, pure_name, type) %>% 
-        summarise(pure_portion = max(pure_portion)) %>% 
-        mutate(type = case_when(type %in% c('legumes', 'legume_soup') ~ 'legumes', 
-                                type %in% c('fish', 'chicken', 'pork') ~ 'white_meat', 
-                                TRUE ~ type)) %>% 
-        group_by(id, type) %>% 
-        summarise(portions_by_type = sum(pure_portion)) %>%
-        ungroup()
-```
-
-    `summarise()` has grouped output by 'id', 'pure_name'. You can override using the `.groups` argument.
-    
-    `summarise()` has grouped output by 'id'. You can override using the `.groups` argument.
-    
-
-
-
-```R
-diets_carb_drinks %>%
+diet_info %>%
     filter(type == "carbonated_drink") %>%
     .$portions_by_type %>%
     quantile(probs = c(1/3, 2/3))
@@ -186,14 +123,14 @@ diets_carb_drinks %>%
 
 
 ```R
-dcd <- diets_carb_drinks %>%
+dcd <- diet_info %>%
     filter(type == "carbonated_drink") %>%
     mutate(carbonated_drink = 
                case_when(portions_by_type == 0 ~ "low", 
                         portions_by_type <= 0.14 ~ "normal", 
                         portions_by_type > 0.14 ~ "high")) %>%
     select(id, carbonated_drink) %>%
-    inner_join(diets_carb_drinks, by = "id") %>%
+    inner_join(diet_info, by = "id") %>%
     filter(type != "carbonated_drink") 
 ```
 
@@ -218,7 +155,7 @@ ggplot(dcd, aes(portions_by_type, fill = carbonated_drink)) +
 
 
     
-![png](output_7_1.png)
+![png](output_5_1.png)
     
 
 
@@ -244,7 +181,7 @@ dcd %>%
 
 
     
-![png](output_8_1.png)
+![png](output_6_1.png)
     
 
 
@@ -303,13 +240,6 @@ wilcox.test(normal_legumes, high_legumes)
 ```R
 portions_cat  <- seq(0, 1, 0.5)
 
-whtr_info <-
-    pure_processed %>% 
-        select(id, whtr)
-
-hd_diag_info <-
-    pure_processed %>% 
-        select(id, d_diagnosed, h_diagnosed)
 
 drinks_info <- 
     dcd %>% 
@@ -317,26 +247,19 @@ drinks_info <-
         distinct(id, carbonated_drink)
 
 energy_info <- 
-    daily_info %>% 
-        filter(name == 'energy') %>% 
-        group_by(id) %>% 
-        summarise(diet_energy = sum(amount_per_day))
+        macro_port_info %>% 
+        select(id, diet_energy = energy) 
 
-metS_cols <- c('id', 'sex', 'age', 'income', 'location_type', 
-               'education', 'waist', 'bmi', 'whr', 
-               'smokes', 'drinks', 
-               'elevated_bp', 'elevated_wcm', 
-               'elevated_triglycerids_mg_d_l', 'elevated_glucose_mg_d_l',
-               'low_hdl_mg_d_l', 'n_conditions', 
-               'met_s')
-
-mets_conds <- models_df %>% select(all_of(metS_cols))
 
 portions_info <- 
     dcd %>%
         select(-carbonated_drink) %>%
         pivot_wider(names_from = type, values_from = portions_by_type)
 
+```
+
+
+```R
 portions_and_mets_df <- 
     dcd %>%
         mutate(type = paste(type, '_cat', sep = ''), 
@@ -349,10 +272,7 @@ portions_and_mets_df <-
         pivot_wider(names_from = type, values_from = portions_cat) %>%
         inner_join(drinks_info, by = "id") %>%
         inner_join(energy_info, by = "id") %>%
-        inner_join(portions_info, by = "id") %>%
-        inner_join(hd_diag_info, by = "id") %>%
-        inner_join(whtr_info, by = "id") %>%
-        inner_join(mets_conds, by = "id") %>%
+        inner_join(conditions_info, by = "id") %>%
         inner_join(pa_info, by = "id")
     
 ```
@@ -474,7 +394,7 @@ summary(mod_metS_drinks)
     legumes_cat]0.5, 1]    -1.068e+00  4.634e-01  -2.305  0.02117 *  
     legumes_cat1+          -1.039e+00  3.869e-01  -2.686  0.00722 ** 
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -530,7 +450,7 @@ summary(mod_metS)
     legumes_cat]0.5, 1]    -1.080e+00  4.611e-01  -2.343  0.01915 *  
     legumes_cat1+          -1.041e+00  3.851e-01  -2.703  0.00688 ** 
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -590,7 +510,7 @@ summary(mod_diab_drinks)
     legumes_cat]0.5, 1]    -1.316e+00  6.703e-01  -1.963  0.04960 *  
     legumes_cat1+          -1.070e+00  4.836e-01  -2.213  0.02688 *  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -646,7 +566,7 @@ summary(mod_diab)
     legumes_cat]0.5, 1]    -1.326e+00  6.677e-01  -1.986   0.0471 *  
     legumes_cat1+          -1.096e+00  4.821e-01  -2.274   0.0230 *  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -706,7 +626,7 @@ summary(mod_ht_drinks)
     legumes_cat]0.5, 1]    -4.416e-01  4.806e-01  -0.919   0.3581    
     legumes_cat1+          -7.414e-01  3.927e-01  -1.888   0.0590 .  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -762,7 +682,7 @@ summary(mod_ht)
     legumes_cat]0.5, 1]    -4.712e-01  4.790e-01  -0.984   0.3252    
     legumes_cat1+          -7.655e-01  3.925e-01  -1.950   0.0511 .  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -784,6 +704,29 @@ library(interactions)
 
 
 ```R
+portions_and_mets_df %>% names()
+```
+
+
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'id'</li><li>'beef_cat'</li><li>'dairy_cat'</li><li>'legumes_cat'</li><li>'white_meat_cat'</li><li>'carbonated_drink'</li><li>'diet_energy'</li><li>'education'</li><li>'whtr'</li><li>'sex'</li><li>'age'</li><li>'income'</li><li>'location_type'</li><li>'waist'</li><li>'bmi'</li><li>'whr'</li><li>'smokes'</li><li>'drinks'</li><li>'elevated_bp'</li><li>'elevated_triglycerids_mg_d_l'</li><li>'elevated_glucose_mg_d_l'</li><li>'low_hdl_mg_d_l'</li><li>'n_conditions'</li><li>'met_s'</li><li>'d_diagnosed'</li><li>'h_diagnosed'</li><li>'l_pa'</li><li>'m_pa'</li><li>'v_pa'</li><li>'total_pa'</li><li>'sum_pa'</li></ol>
+
+
+
+
+```R
+legumes_info <- diet_info %>% 
+    filter(type == 'legumes') %>% 
+    select(id, legumes = portions_by_type) %>% 
+    inner_join(portions_and_mets_df, by = 'id')
+```
+
+
+```R
 mod_metS_edu <- 
     glm(met_s ~ sex + age + 
                 bmi + whr +
@@ -793,7 +736,7 @@ mod_metS_edu <-
                 carbonated_drink +
                 beef_cat + dairy_cat + white_meat_cat + 
                 legumes * education, 
-                portions_and_mets_df, family=binomial)
+                legumes_info, family=binomial)
 ```
 
 
@@ -803,7 +746,7 @@ interact_plot(mod_metS_edu, pred = legumes, modx = education)
 
 
     
-![png](output_30_0.png)
+![png](output_31_0.png)
     
 
 
@@ -818,7 +761,7 @@ mod_metS_inc <-
                 carbonated_drink +
                 beef_cat + dairy_cat + white_meat_cat + 
                 legumes * income, 
-                portions_and_mets_df, family=binomial)
+                legumes_info, family=binomial)
 ```
 
 
@@ -827,12 +770,12 @@ interact_plot(mod_metS_inc, pred = legumes, modx = income)
 ```
 
     Warning message:
-    "[33m-84.5983395732901 is outside the observed range of income[39m"
+    “[33m-84.5983395732901 is outside the observed range of income[39m”
 
 
 
     
-![png](output_32_1.png)
+![png](output_33_1.png)
     
 
 
@@ -847,7 +790,7 @@ mod_metS_type <-
                 carbonated_drink +
                 beef_cat + dairy_cat + white_meat_cat + 
                 legumes * location_type, 
-                portions_and_mets_df, family=binomial)
+                legumes_info, family=binomial)
 ```
 
 
@@ -857,7 +800,7 @@ interact_plot(mod_metS_type, pred = legumes, modx = location_type)
 
 
     
-![png](output_34_0.png)
+![png](output_35_0.png)
     
 
 
@@ -871,7 +814,7 @@ glm(met_s ~ sex + age +
             carbonated_drink +
             beef_cat + dairy_cat + white_meat_cat + 
             legumes_cat * income, 
-            portions_and_mets_df, family=binomial) %>%
+            legumes_info, family=binomial) %>%
     summary()
 ```
 
@@ -881,7 +824,7 @@ glm(met_s ~ sex + age +
     glm(formula = met_s ~ sex + age + bmi + whr + location_type + 
         education + income + smokes + drinks + diet_energy + total_pa + 
         carbonated_drink + beef_cat + dairy_cat + white_meat_cat + 
-        legumes_cat * income, family = binomial, data = portions_and_mets_df)
+        legumes_cat * income, family = binomial, data = legumes_info)
     
     Deviance Residuals: 
         Min       1Q   Median       3Q      Max  
@@ -917,7 +860,7 @@ glm(met_s ~ sex + age +
     income:legumes_cat]0.5, 1] -2.190e-04  4.630e-04  -0.473   0.6362    
     income:legumes_cat1+        3.821e-05  2.988e-04   0.128   0.8982    
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -934,35 +877,8 @@ glm(met_s ~ sex + age +
 
 
 ```R
-legumes_data <- 
-    daily_info %>%
-        filter(name == "energy") %>%
-        mutate(type = 
-               case_when(pure_name %in% c("soft_drink", "soft_light_drink") ~ "carbonated_drink", 
-                        TRUE ~ type)) %>%
-        filter(type %in% c('legumes', 'legume_soup', 
-                           'fish', 'chicken', 'pork', 
-                           'beef', 'dairy', 
-                           'carbonated_drink'), 
-               !str_detect(pure_name, 'skimmed')) %>% 
-        group_by(id, pure_name, type) %>% 
-        summarise(pure_portion = max(pure_portion)) %>% 
-        mutate(type = case_when(type %in% c('legumes', 'legume_soup') ~ 'legumes', 
-                                type %in% c('fish', 'chicken', 'pork') ~ 'white_meat', 
-                                TRUE ~ type)) %>%
-        filter(type == "legumes")
-```
-
-    `summarise()` has grouped output by 'id', 'pure_name'. You can override using the `.groups` argument.
-    
-
-
-
-```R
-legumes_data %>% 
-    ungroup() %>%
-    mutate(total = sum(pure_portion)) %>%
-    group_by(pure_name) %>%
+legumes_types_info %>% 
+    group_by(pure_name) %>% 
     summarise(total = max(total), 
               percent = 100 * round(sum(pure_portion) / total, 2)) %>%
     arrange(-percent) %>%
@@ -994,7 +910,7 @@ legumes_data %>%
 
 
 ```R
-pure_processed %>%
+conditions_info %>%
     select(whr, whtr) %>%
     ggplot(aes(x = whr, y = whtr)) +
     geom_point() + 
@@ -1013,11 +929,11 @@ pure_processed %>%
 
 
 ```R
-corr_data <- pure_processed %>% mutate(whr_100 = whr * 100)
+corr_data <- conditions_info %>% mutate(whr_100 = whr * 100)
 lm(whr_100 ~ whtr + sex, corr_data) %>%
     summary()
 
-cor(pure_processed$whr, pure_processed$whtr)
+cor(conditions_info$whr, conditions_info$whtr)
 ```
 
 
@@ -1035,7 +951,7 @@ cor(pure_processed$whr, pure_processed$whtr)
     whtr          0.6041     0.0136   44.42   <2e-16 ***
     sexWoman     -8.3829     0.2369  -35.39   <2e-16 ***
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     Residual standard error: 4.682 on 1994 degrees of freedom
     Multiple R-squared:  0.5822,	Adjusted R-squared:  0.5817 
@@ -1099,7 +1015,7 @@ glm(met_s ~ sex + age +
     legumes_cat]0.5, 1]    -1.075e+00  4.618e-01  -2.328  0.01991 *  
     legumes_cat1+          -1.001e+00  3.855e-01  -2.597  0.00939 ** 
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -1162,7 +1078,7 @@ glm(d_diagnosed ~ sex + age +
     legumes_cat]0.5, 1]    -1.334e+00  6.673e-01  -1.999   0.0456 *  
     legumes_cat1+          -1.065e+00  4.801e-01  -2.218   0.0266 *  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -1225,7 +1141,7 @@ glm(h_diagnosed ~ sex + age +
     legumes_cat]0.5, 1]    -5.000e-01  4.797e-01  -1.042   0.2973    
     legumes_cat1+          -7.472e-01  3.923e-01  -1.905   0.0568 .  
     ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
     
     (Dispersion parameter for binomial family taken to be 1)
     
@@ -1237,8 +1153,3 @@ glm(h_diagnosed ~ sex + age +
     Number of Fisher Scoring iterations: 4
 
 
-
-
-```R
-
-```
